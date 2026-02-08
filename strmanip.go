@@ -39,7 +39,7 @@ func processIsNumeric(s string, allowDecimal bool, allowNegative bool) bool {
         }
 
         if val < rune('0') || val > rune('9') {
-            //outside the range of ascii numbers
+            //outside the range of ASCII numbers
             return false
         }
     }
@@ -59,7 +59,7 @@ func IsLowercase(s string) bool {
 
     for _, val := range s {
         if val < rune('a') || val > rune('z') {
-            //outside the range of ascii lowercase letters
+            //outside the range of ASCII lowercase letters
             return false
         }
     }
@@ -75,7 +75,7 @@ func IsUppercase(s string) bool {
 
     for _, val := range s {
         if val < rune('A') || val > rune('Z') {
-            //outside the range of ascii lowercase letters
+            //outside the range of ASCII lowercase letters
             return false
         }
     }
@@ -107,6 +107,8 @@ func ToLowercase(s string) string {
         return s
     }
 
+    //find the difference between the ASCII values of lowercase and uppercase
+    //this will be what we need to add to the uppercase value to make lowercase
     difference := rune('a') - rune('A')
 
     runes := []rune(s)
@@ -129,6 +131,8 @@ func ToUppercase(s string) string {
         return s
     }
 
+    //find the difference between the ASCII values of lowercase and uppercase
+    //this will be what we need to subtract from the lowercase value to make uppercase
     difference := rune('a') - rune('A')
 
     runes := []rune(s)
@@ -143,4 +147,64 @@ func ToUppercase(s string) string {
     }
 
     return string(runes)
+}
+
+func Split(s string, c rune) []string {
+    sLength := len(s)
+    result := []string{}
+
+    //if string is empty, return an empty slice
+    if sLength == 0 {
+        return result
+    }
+
+    //create a rune slice to process each letter into a word
+    word := []rune{}
+
+    //loop through the string
+    for _, val := range s {
+        if val == c {
+            //we've found the split character, so add the current word to the result slice
+            result = append(result, string(word))
+            //reset the word for the next set of processing
+            word = word[:0]
+        } else {
+            //we've not found the split character yet, so add this rune to the word
+            word = append(word, val)
+        }
+    }
+
+    //whatever word is left at the end of the string gets added to the result
+    result = append(result, string(word))
+
+    return result
+}
+
+func Join(arr []string, s string) string {
+    arrLength := len(arr)
+
+    //if we're given an empty slice, return an empty string
+    if arrLength == 0 {
+        return ""
+    }
+
+    //build the result one character at a time
+    result := []rune{}
+    for i, val := range arr {
+        //loop over the characters in each string in arr & add to the result
+        for _, r := range val {
+            result = append(result, r)
+        }
+
+        //we add the joining string BETWEEN the words in arr, no need to add at the end
+        if (i < arrLength - 1) {
+            //loop over the characters in the joining string & add to the result
+            for _, r := range s {
+                result = append(result, r)
+            }
+        }
+    }
+
+    //return the rune result slice as a string
+    return string(result)
 }

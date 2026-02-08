@@ -183,3 +183,59 @@ func TestToUppercase(t *testing.T) {
 		})
 	}
 }
+
+// TestSplit calls strmanip.Split
+func TestSplit(t *testing.T) {
+	var tests = []struct {
+		name      string
+		inputA    string
+		inputB    rune
+		expected  []string
+	}{
+		{"empty", "", ',', []string{}},
+		{"by space", "split by space", ' ', []string{"split", "by", "space"}},
+		{"by letter", "beekeeper needed", 'e', []string{"b", "", "k", "", "p", "r n", "", "d", "d"}},
+		{"filepath", "/home/./..//Documents/", '/', []string{"", "home", ".", "..", "", "Documents", ""}},
+		{"same as split char", "A", 'A', []string{"", ""}},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			actual := Split(test.inputA, test.inputB)
+            if len(actual) != len(test.expected) {
+				t.Errorf("Split(%s, %c) = %s; want %s", test.inputA, test.inputB, actual, test.expected)
+            } else {
+                for i, val := range test.expected {
+                    if val != actual[i] {
+                        t.Errorf("Split(%s, %c) = %s; want %s", test.inputA, test.inputB, actual, test.expected)
+                    }
+                }
+            }
+		})
+	}
+}
+
+// TestJoin calls strmanip.Split
+func TestJoin(t *testing.T) {
+	var tests = []struct {
+		name      string
+		inputA    []string
+		inputB    string
+		expected  string
+	}{
+		{"empty", []string{}, "", ""},
+		{"by space", []string{"join", "by", "space"}, " ", "join by space"},
+		{"by letter", []string{"b", "", "k", "", "p", "r n", "", "d", "d!!"}, "ee", "beeeekeeeepeer neeeedeed!!" },
+		{"filepath", []string{"", "home", ".", "..", "", "Documents", ""}, "/", "/home/./..//Documents/" },
+		{"by blank", []string{"join", "by", "blank"}, "", "joinbyblank"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			actual := Join(test.inputA, test.inputB)
+			if actual != test.expected {
+				t.Errorf("Join(%v, %s) = %s; want %s", test.inputA, test.inputB, actual, test.expected)
+			}
+		})
+	}
+}

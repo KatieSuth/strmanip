@@ -4,7 +4,7 @@ import (
     "testing"
 )
 
-// TestIsLowercase calls strmanip.IsNumeric
+// TestIsNumeric calls strmanip.IsNumeric
 func TestIsNumeric(t *testing.T) {
 	var tests = []struct {
 		name     string
@@ -215,7 +215,7 @@ func TestSplit(t *testing.T) {
 	}
 }
 
-// TestJoin calls strmanip.Split
+// TestJoin calls strmanip.Join
 func TestJoin(t *testing.T) {
 	var tests = []struct {
 		name      string
@@ -235,6 +235,31 @@ func TestJoin(t *testing.T) {
 			actual := Join(test.inputA, test.inputB)
 			if actual != test.expected {
 				t.Errorf("Join(%v, %s) = %s; want %s", test.inputA, test.inputB, actual, test.expected)
+			}
+		})
+	}
+}
+
+// TestIsPalindrome calls strmanip.IsPalindrome
+func TestIsPalindrome(t *testing.T) {
+	var tests = []struct {
+		name      string
+		input     string
+		expected  bool
+	}{
+		{"empty", "", true},
+		{"even letter count", "abccba", true},
+		{"odd letter count", "abcba", true},
+		{"not palindrome", "abcde", false },
+		{"close to but not palindrome even", "abcdecba", false },
+		{"close to but not palindrome odd", "abcdeecba", false },
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			actual := IsPalindrome(test.input)
+			if actual != test.expected {
+				t.Errorf("IsPalindrome(%s) = %t; want %t", test.input, actual, test.expected)
 			}
 		})
 	}

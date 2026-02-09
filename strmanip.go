@@ -208,3 +208,29 @@ func Join(arr []string, s string) string {
     //return the rune result slice as a string
     return string(result)
 }
+
+func IsPalindrome(s string) bool {
+    length := len(s)
+
+    //if we're given an empty string, it "reads" the same forward as backward,
+    //so technically a palindrome
+    if length == 0 {
+        return true
+    }
+
+    j := length - 1
+
+    for i := 0; i < (length/2 + 1); i++ {
+        if i == j || i > j {
+            break
+        }
+
+        if s[i] != s[j] {
+            return false
+        }
+
+        j--
+    }
+
+    return true
+}

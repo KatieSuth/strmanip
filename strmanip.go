@@ -234,3 +234,31 @@ func IsPalindrome(s string) bool {
 
     return true
 }
+
+func StripNonAlphanumeric(s string) string {
+    length := len(s)
+
+    if length == 0 {
+        return ""
+    }
+
+    result := []rune{}
+    for _, val := range s {
+        if IsAlphaNumeric(string(val)) {
+            result = append(result, val)
+        }
+    }
+
+    return string(result)
+}
+
+//ignores non-alphanumeric characters & case
+func IsPalindromicSentence(s string) bool {
+    //pre-process the string to strip non-alphanumeric chars
+    s = StripNonAlphanumeric(s)
+
+    //we don't care about case, convert all to lower
+    s = ToLowercase(s)
+
+    return IsPalindrome(s)
+}

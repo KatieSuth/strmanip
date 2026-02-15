@@ -264,3 +264,52 @@ func TestIsPalindrome(t *testing.T) {
 		})
 	}
 }
+
+// TestStripNonAlphanumeric calls strmanip.StripNonAlphanumeric
+func TestStripNonAlphanumeric(t *testing.T) {
+	var tests = []struct {
+		name      string
+		input     string
+		expected  string
+	}{
+		{"empty", "", ""},
+		{"no non alphanumeric", "aBcDe", "aBcDe"},
+		{"only non alphanumeric", "!@ #$", ""},
+		{"combo", "\"I wish it need not have happened in my time,\" said Frodo. \"So do I,\" said Gandalf, \"and so do all who live to see such times. But that is not for them to decide. All we have to decide is what to do with the time that is given us.\"", "IwishitneednothavehappenedinmytimesaidFrodoSodoIsaidGandalfandsodoallwholivetoseesuchtimesButthatisnotforthemtodecideAllwehavetodecideiswhattodowiththetimethatisgivenus"},
+    }
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			actual := StripNonAlphanumeric(test.input)
+			if actual != test.expected {
+				t.Errorf("StripNonAlphanumeric(%s) = %s; want %s", test.input, actual, test.expected)
+			}
+		})
+	}
+}
+
+func TestIsPalindromicSentence(t *testing.T) {
+    var tests = []struct {
+        name      string
+        input     string
+        expected  bool
+    }{
+		{"empty", "", true},
+        {"palindrome", "Bob wondered, 'Now, Bob?'", true},
+        {"not palindrome", "race a car", false},
+		{"single letter", "a", true},
+		{"palindrome various cases", "A man, a plan, a canal: Panama", true},
+		{"palindrome", "Was it a car or a cat I saw?", true},
+		{"not palindrome", "hello", false},
+		{"only punctuation", ".,?!'", true},
+    }
+
+    for _, test := range tests {
+        t.Run(test.name, func(t *testing.T) {
+            actual := IsPalindromicSentence(test.input)
+            if actual != test.expected {
+				t.Errorf("IsPalindromicSentence(%s) = %t; want %t", test.input, actual, test.expected)
+            }
+        })
+    }
+}

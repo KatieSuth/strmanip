@@ -1,4 +1,4 @@
-[![Go](https://github.com/KatieSuth/strmanip/actions/workflows/go.yml/badge.svg)](https://github.com/KatieSuth/strmanip/actions/workflows/go.yml) 
+[![Go](https://github.com/KatieSuth/strmanip/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/KatieSuth/strmanip/actions/workflows/go.yml) 
 
 
 Simple string manipulation library in Go
